@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نماذج البحث مع لوحة تحكم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+        body {
+            font-family: sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    direction: rtl !important;
+    text-align: center;
+        }
+        .control-panel label {
+    float: right;
+    margin-bottom: 11px;
+}
+.control-panel h2 {
+    text-align: right;
+}
+        button#bt {
+    max-height: 65px;
+    height: 45px;
+    position: relative;
+    direction: rtl;
+    cursor: pointer;
+    border: 0px;
+    font-style: normal;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    min-width: 85%;
+    background: rgb(239, 15, 15);
+    color: white;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-family: sans-serif;
+
+}
+        .search-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 0px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            border: 1px solid rgb(196, 196, 196);
+        }
+        div#formsContainer form:first-child .dropdown-container ,
+        div#formsContainer form:first-child .dropdown-container .dropdown-button {
+    border-radius: 0px 15px 15px 0px;
+}
+div#formsContainer form:last-child .dropdown-container , 
+div#formsContainer form:last-child .dropdown-container .dropdown-button {
+    border-radius: 15px 0px 0px 15px;
+}
+
+
+        .dropdown-button {
+            transition: background-color 0.5s;
+    background-color: white;
+    color: #000000;
+    margin: 0px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: right;
+    width: 100%;
+    direction: rtl;
+    border-radius: 0px;
+    height: 66px;
+    padding: 6px 16px 4px;
+    border-left: 1px solid rgb(196, 196, 196);
+        }
+
+        .dropdown-button span {
+            margin-right: 10px;
+    font-size: 18px;
+    font-family: sans-serif;
+        }
+
+        .dropdown-button:hover {
+            background-color: #f9f9f9;
+                }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            z-index: 1;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .dropdown-content button {
+            background: none;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            text-align: left;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #f4f4f4;
+        }
+
+        .dropdown-content button.selected {
+            background-color: #e9ecef;
+        }
+
+        .control-panel {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .control-panel input, .control-panel select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .control-panel button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-panel button:hover {
+            background-color: #0056b3;
+        }
+
+        .copy-code {
+            margin-top: 20px;
+        }
+
+        .copy-code button {
+            background-color: #17a2b8;
+        }
+
+        .copy-code button:hover {
+            background-color: #138496;
+        }
+
+        .search-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .dropdown-button {
+                font-size: 14px;
+            }
+        }
+        .copy-code {
+            margin-top: 20px;
+            width: 43%;
+            display: inline-block;
+            padding: 11px;
+        }
+        textarea#codeOutput1 , textarea#codeOutput , textarea#codeOutput2 {
+    width: 100%;
+}
+.copy-code button {
+    background-color: #17a2b8;
+    color: white;
+    padding: 15px 28px;
+    border: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 10px;
+    font-family: sans-serif;
+}
+.dropdown-container a { text-decoration: none; color: black; font-size: 18px; display: block; padding: 5px; border-bottom: 1px solid #00000026; }
+.dropdown-button::after {
+    content: "\f0d7";
+    font-size: 22px !important;
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    float: left;
+    text-rendering: auto;
+    color: #00000085;
+    -webkit-font-smoothing: antialiased;
+}
+.dropdown-button:active{
+background-color: rgba(255, 0, 0, 0.404);
+}
+.dropdown-button.show::after{
+    transform: rotate(181deg);
+
+}
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <h2>لوحة تحكم النماذج</h2>
+        <label for="formCount">عدد النماذج:</label>
+        <input type="number" id="formCount" value="3" min="1" max="10" onchange="updateFormCount()">
+
+        <label for="formNames">أسماء النماذج (فصل بين الأسماء بفواصل):</label>
+        <input type="text" id="formNames" 
+        placeholder="أدخل أسماء النماذج مفصولة بفواصل (مثال: التخصص, المحافظه, المنطقه)" onchange="updateFormNames()">
+
+        <label for="formCategories">فئات النماذج (فصل بين الفئات بفواصل - نفس الترتيب للأسماء):</label>
+        <input type="text" id="formCategories" placeholder="أدخل فئات النماذج مفصولة بفواصل (مثال: جلدية, اسنان, نفسي | القاهرة, الجيزة, الاسكندرية | مصر الجديدة, مدينة نصر, المعادي)">
+
+        <button onclick="generateCode()">توليد الكود</button>
+    </div>
+
+    <div class="search-container" id="formsContainer">
+        <!-- Forms will be dynamically added here -->
+    </div>
+<div id="kk">
+    <div class="copy-code">
+        <h2>الكود الناتج:</h2>
+        <textarea id="codeOutput" rows="10" cols="100" readonly>    <div class="search-container" id="formsContainer">
+        </div>
+        </textarea>
+        <button onclick="copyCode()">نسخ الكود</button>
+    </div>
+
+    <div class="copy-code">
+        <h2>كود فوق ال &lt;/head&gt;</h2>
+        <textarea id="codeOutput1" rows="10" cols="100" readonly> <style>
+            .control-panel label{float:right;margin-bottom:11px;}.control-panel h2{text-align:right;}button#bt{max-height:65px;height:45px;position:relative;direction:rtl;cursor:pointer;border:0px;font-style:normal;font-size:20px;text-align:center;vertical-align:middle;min-width:85%;background:rgb(239,15,15);color:white;border-radius:6px;margin-top:6px;font-family:sans-serif;}.search-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0px;max-width:1200px;margin:0 auto;}.form-container{background-color:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}.dropdown-container{position:relative;display:inline-block;width:100%;border:1px solid rgb(196,196,196);}div#formsContainer form:first-child .dropdown-container,div#formsContainer form:first-child .dropdown-container .dropdown-button{border-radius:0px 15px 15px 0px;}div#formsContainer form:last-child .dropdown-container,div#formsContainer form:last-child .dropdown-container .dropdown-button{border-radius:15px 0px 0px 15px;}.dropdown-button{transition:background-color 0.5s;background-color:white;color:#000000;margin:0px;font-size:16px;border:none;cursor:pointer;text-align:right;width:100%;direction:rtl;border-radius:0px;height:66px;padding:6px 16px 4px;border-left:1px solid rgb(196,196,196);}.dropdown-button span{margin-right:10px;font-size:18px;font-family:sans-serif;}.dropdown-button:hover{background-color:#f9f9f9;}.dropdown-content{display:none;position:absolute;background-color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1);width:100%;z-index:1;border-radius:5px;top:100%;left:0;max-height:200px;overflow-y:auto;}.dropdown-content button{background:none;border:none;width:100%;padding:10px;text-align:left;color:#333;cursor:pointer;font-size:16px;transition:background-color 0.3s ease;}.dropdown-content button:hover{background-color:#f4f4f4;}.dropdown-content button.selected{background-color:#e9ecef;}.control-panel{margin:20px 0;padding:20px;background-color:#fff;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1);text-align:left;}.control-panel input,.control-panel select{width:calc(100% - 22px);padding:10px;border:1px solid #ccc;border-radius:5px;font-size:16px;margin-bottom:10px;}.control-panel button{background-color:#007bff;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;font-size:16px;transition:background-color 0.3s ease;}.control-panel button:hover{background-color:#0056b3;}.copy-code{margin-top:20px;}.copy-code button{background-color:#17a2b8;}.copy-code button:hover{background-color:#138496;}.search-container h2{color:#333;margin-bottom:20px;font-size:18px;display:none;}@media (max-width:600px){.dropdown-button{font-size:14px;}}.dropdown-container a { text-decoration: none; color: black; font-size: 18px; display: block; padding: 5px; border-bottom: 1px solid #00000026; }.dropdown-button::after { content: "\f0d7"; font-size: 22px !important; display: inline-block; font: normal normal normal 14px / 1 FontAwesome; float: left; text-rendering: auto; color: #00000085; -webkit-font-smoothing: antialiased; } .dropdown-button:active{ background-color: rgba(255, 0, 0, 0.404); } .dropdown-button.show::after{ transform: rotate(181deg); }</style></textarea>
+        <button onclick="copyCodecss()">نسخ الكود</button>
+    </div>
+
+    <div class="copy-code">
+        <h2>كود فوق ال &lt;/body&gt;</h2>
+        <textarea id="codeOutput2" rows="10" cols="100" readonly><script>/*<![CDATA[*/
+            function updateFormCount() {
+                generateCode();
+            }
+        
+            function updateFormNames() {
+                generateCode();
+            }
+        
+            function generateCode() {
+                const container = document.getElementById('formsContainer');
+                const formCount = document.getElementById('formCount').value;
+                const formNames = document.getElementById('formNames').value.split(',').map(name => name.trim());
+                const formCategories = document.getElementById('formCategories').value.split('|').map(cat => cat.split(',').map(c => c.trim()));
+                
+                container.innerHTML = '';
+                
+                for (let i = 0; i < formCount; i++) {
+                    if (i >= formNames.length || i >= formCategories.length) break;
+                    const formName = formNames[i];
+                    const formId = formName.toLowerCase().replace(/\s+/g, '');
+                    const formTitle = formName;
+                    const categories = formCategories[i];
+        
+                    const formHTML = `
+                    
+                        <form id="${formId}Form" action="" method="get">
+                                <h2>${formTitle}</h2>
+                                <div class="dropdown-container">
+                                    <button type="button" id="${formId}Button" class="dropdown-button" onclick="toggleDropdown('${formId}Dropdown')">
+                                        <span id="${formId}Value">اختار ${formTitle}</span>
+                                        <canvas class="ink" height="66" width="237" style="border-radius:inherit;height:100%;left:0;position:absolute;top:0;width:100%;color:#dbe8f6;opacity:0.7"></canvas>
+                                    </button>
+                                    <div id="${formId}Dropdown" class="dropdown-content">
+                                    ${categories.map(cat => `<a href="#" data-value="${cat}" onclick="selectCategory('${formId}Button', '${formId}Category', '${cat}')">${cat}</a>`).join('')}
+                                </div>
+                                </div>
+                                <input type="hidden" id="${formId}Category" name="category">
+                                <button type="button" id="bt" onclick="searchForm('${formId}')">بحث</button>
+                            </form>
+                    `;
+        
+                    container.innerHTML += formHTML;
+                }
+        
+                document.getElementById('codeOutput').textContent =  container.innerHTML;
+            }
+        
+            function toggleDropdown(id) {
+                var dropdown = document.getElementById(id);
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        
+            function selectCategory(buttonId, inputId, value) {
+                document.getElementById(inputId).value = value;
+                var button = document.getElementById(buttonId);
+                button.textContent = value;
+                var dropdowns = document.querySelectorAll('.dropdown-content');
+                dropdowns.forEach(function(dropdown) {
+                    dropdown.style.display = 'none';
+                });
+            }
+        
+            function searchForm(formId) {
+                var category = document.getElementById(formId + "Category").value;
+                window.location.href = "/search/label/" + encodeURIComponent(category) + "?max-results=50";
+            }
+        
+           
+            function copyCode() {
+                    var codeOutput = document.getElementById('codeOutput');
+                    codeOutput.select();
+                    document.execCommand('copy');
+                    alert('تم نسخ الكود!');
+                }
+                
+                function copyCodecss() {
+                    var codeOutput = document.getElementById('codeOutput1');
+                    codeOutput.select();
+                    document.execCommand('copy');
+                    alert('تم نسخ الكود!');
+                }
+                function copyCodejs() {
+                    var codeOutput = document.getElementById('codeOutput2');
+                    codeOutput.select();
+                    document.execCommand('copy');
+                    alert('تم نسخ الكود!');
+                }
+        
+            // Initialize with default values
+            generateCode();
+            // إضافة معالج الحدث لكل عنصر من عناصر الـ dropdown-button
+document.querySelectorAll(".dropdown-button").forEach(function(button) {
+  button.addEventListener("click", function() {
+    // التبديل بين إظهار وإخفاء الفئة "show" على العنصر المحدد
+    this.classList.toggle("show");
+  });
+});
+            /*]]>*/
+        </script></textarea>
+        <button onclick="copyCodejs()">نسخ الكود</button>
+    </div>
+    
+</div>
+<script>
+    function updateFormCount() {
+        generateCode();
+    }
+
+    function updateFormNames() {
+        generateCode();
+    }
+
+    function generateCode() {
+        const container = document.getElementById('formsContainer');
+        const formCount = document.getElementById('formCount').value;
+        const formNames = document.getElementById('formNames').value.split(',').map(name => name.trim());
+        const formCategories = document.getElementById('formCategories').value.split('|').map(cat => cat.split(',').map(c => c.trim()));
+        
+        container.innerHTML = '';
+        
+        for (let i = 0; i < formCount; i++) {
+            if (i >= formNames.length || i >= formCategories.length) break;
+            const formName = formNames[i];
+            const formId = formName.toLowerCase().replace(/\s+/g, '');
+            const formTitle = formName;
+            const categories = formCategories[i];
+
+            const formHTML = `
+                <form id="${formId}Form" action="" method="get">
+                        <h2>${formTitle}</h2>
+                        <div class="dropdown-container">
+                            <button type="button" id="${formId}Button" class="dropdown-button" onclick="toggleDropdown('${formId}Dropdown')">
+                                <span id="${formId}Value">اختار ${formTitle}</span>
+                                <canvas class="ink" height="66" width="237" style="border-radius:inherit;height:100%;left:0;position:absolute;top:0;width:100%;color:#dbe8f6;opacity:0.7"></canvas>
+                            </button>
+                            <div id="${formId}Dropdown" class="dropdown-content">
+                            ${categories.map(cat => `<a href="#" data-value="${cat}" onclick="selectCategory('${formId}Button', '${formId}Category', '${cat}')">${cat}</a>`).join('')}
+                        </div>
+                        </div>
+                        <input type="hidden" id="${formId}Category" name="category">
+                        <button type="button" id="bt" onclick="searchForm('${formId}')">بحث</button>
+                    </form>
+            `;
+
+            container.innerHTML += formHTML;
+        }
+
+        document.getElementById('codeOutput').textContent = document.getElementById('codeOutput').textContent = '<div class="search-container" id="formsContainer">\n' +
+                      container.innerHTML + '\n' +
+                      '</div>';
+    }
+
+    function toggleDropdown(id) {
+        var dropdown = document.getElementById(id);
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function selectCategory(buttonId, inputId, value) {
+        document.getElementById(inputId).value = value;
+        var button = document.getElementById(buttonId);
+        button.textContent = value;
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function(dropdown) {
+            dropdown.style.display = 'none';
+        });
+    }
+
+    function searchForm(formId) {
+        var category = document.getElementById(formId + "Category").value;
+        window.location.href = "/search/label/" + encodeURIComponent(category) + "?max-results=50";
+    }
+
+   
+    function copyCode() {
+            var codeOutput = document.getElementById('codeOutput');
+            codeOutput.select();
+            document.execCommand('copy');
+            alert('تم نسخ الكود!');
+        }
+        
+        function copyCodecss() {
+            var codeOutput = document.getElementById('codeOutput1');
+            codeOutput.select();
+            document.execCommand('copy');
+            alert('تم نسخ الكود!');
+        }
+        function copyCodejs() {
+            var codeOutput = document.getElementById('codeOutput2');
+            codeOutput.select();
+            document.execCommand('copy');
+            alert('تم نسخ الكود!');
+        }
+
+    // Initialize with default values
+    generateCode();
+// إضافة معالج الحدث لكل عنصر من عناصر الـ dropdown-button
+document.querySelectorAll(".dropdown-button").forEach(function(button) {
+  button.addEventListener("click", function() {
+    // التبديل بين إظهار وإخفاء الفئة "show" على العنصر المحدد
+    this.classList.toggle("show");
+  });
+});
+
+</script>
+</body>
+</html>
